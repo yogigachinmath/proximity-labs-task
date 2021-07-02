@@ -1,7 +1,8 @@
 import { Button, makeStyles } from '@material-ui/core';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import AQITable from './components/AQITable';
 import Chart from './components/Chart';
+import { connectSocket, closeSocketConnection } from './config/socket';
 import './App.css';
 
 const useStyles = makeStyles({
@@ -28,16 +29,13 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const socket = useRef(null);
   const [aqiData, setAqiData] = useState({});
   const [isSocketClosed, setIsSocketClosed] = useState(false);
 
   const classes = useStyles();
 
   const makeConnection = () => {
-    socket.current = new WebSocket('wss://city-ws.herokuapp.com');
-    socket.current.onmessage = (event) => {
-      const updatedAqiData = JSON.parse(event.data);
+    connectSocket((updatedAqiData) => {
       setAqiData((aqiData) => {
         for (const cityData of updatedAqiData) {
           if (!aqiData[cityData.city]) aqiData[cityData.city] = {};
@@ -48,18 +46,18 @@ function App() {
         }
         return {...aqiData} ;
       });
-    };
+    })
   }
 
   useEffect(() => {
     makeConnection();
     return () => {
-      socket.current.close();
+      closeSocketConnection();
     };
   }, []);
 
   function handleClick() {
-    if(!isSocketClosed) socket.current.close();
+    if(!isSocketClosed) closeSocketConnection();
     else makeConnection();
     setIsSocketClosed(!isSocketClosed);
   }

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 
 const formatDate = (date) => {
   const diffInSec = (new Date().getTime() - date.getTime()) / 1000;
-  if (diffInSec < 60) return diffInSec;
+  if (diffInSec < 60) return 'A few seconds ago';
   else if (diffInSec >= 60 && diffInSec < 120) return 'A minute ago';
   else if (diffInSec < 60 * 60) return `${parseInt(diffInSec / 60)} minutes ago`;
   else return;
@@ -40,7 +40,7 @@ let timer;
 
 function AQITable({ aqiData, isSocketClosed }) {
   const classes = useStyles();
-  const [count, setCount] = useState(0);
+  const [, setCount] = useState(0);
 
   useEffect(() => {
       if(isSocketClosed) {
