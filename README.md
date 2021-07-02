@@ -1,3 +1,14 @@
+# Demo
+Link to loom video: https://www.loom.com/share/a8253abfce7b4d849053e0316e07c019
+
+# time taken
+Initial setup and choosing dependency: 30min,
+Socket Connection: 30min,
+AQI Table component: 2hr,
+Chart Component: 2hr,
+Code refactoring and optimization: 1hr,
+Deployment: 30min,
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
